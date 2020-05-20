@@ -1,0 +1,7 @@
+channels:
+  - defaults
+dependencies:
+  - pip:
+    - pytorch-lightly
+    - neptune-client
+

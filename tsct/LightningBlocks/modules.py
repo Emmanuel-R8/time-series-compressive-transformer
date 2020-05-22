@@ -1,5 +1,4 @@
-from tsct import util
-from util import mask_
+from tsct.utils.utils import mask_
 
 import random
 import math

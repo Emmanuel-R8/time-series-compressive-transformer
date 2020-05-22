@@ -3,19 +3,12 @@ from util import mask_
 
 import random
 import math
+from argparse import ArgumentParser
 
 import torch
 from torch.nn import functional as F
 from torch import nn
 from pytorch_lightning.core.lightning import LightningModule
-
-
-# Let's get the simple modules out of the way
-class MLP(LightningModule):
-
-    def __init(self, dim):
-        super().__init__()
-        self.dim = dim
 
 
 class SelfAttentionWide(nn.Module):
@@ -162,8 +155,11 @@ class TransformerBlock(nn.Module):
     def __init__(self, emb, heads, mask, seq_length, ff_hidden_mult=4, dropout=0.0, wide=True):
         super().__init__()
 
-        self.attention = SelfAttentionWide(emb, heads=heads, mask=mask) if wide \
-            else SelfAttentionNarrow(emb, heads=heads, mask=mask)
+        if wide:
+            self.attention = SelfAttentionWide(emb, heads=heads, mask=mask)
+        else:
+            self.attention = SelfAttentionNarrow(emb, heads=heads, mask=mask)
+
         self.mask = mask
 
         self.norm1 = nn.LayerNorm(emb)
@@ -180,15 +176,10 @@ class TransformerBlock(nn.Module):
     def forward(self, x):
 
         attended = self.attention(x)
-
         x = self.norm1(attended + x)
-
         x = self.do(x)
-
         fedforward = self.ff(x)
-
         x = self.norm2(fedforward + x)
-
         x = self.do(x)
 
         return x

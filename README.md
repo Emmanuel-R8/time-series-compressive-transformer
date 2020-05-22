@@ -9,4 +9,5 @@ __Neptune.ai__: This requires a free Neptune.ai account. Install with `pip insta
 
 # Note:
 
-A lot of the original code is due to [Peter Bloem](https://github.com/pbloem/former).
+Thanks to [Peter Bloem](https://github.com/pbloem/former).
+
